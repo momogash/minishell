@@ -2,6 +2,7 @@
 #ifndef __MINISHELL_H
 # define __MINISHELL_H
 # include "get_next_line.h"
+# include "libft/libft.h"
 # include <sys/wait.h>
 # include <dirent.h>
 # define NDIR 1

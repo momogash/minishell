@@ -11,7 +11,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	ar rc $(LIB) $(OBJ)
 	ranlib  $(LIB)
-	gcc $(CFLAGS) $(LIB) main.c -o $(NAME)
+	gcc $(CFLAGS) main.c $(LIB)  -o $(NAME)
 
 $(OBJ):
 	gcc -c $*.c -o $@ $(CFLAGS)

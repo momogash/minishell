@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 static void		ft_remove_qoute(char **cmd)
@@ -34,6 +33,13 @@ static void		ft_handle_cmd(char *cmd, char ***envp)
 	ft_handle_fork(argv, envp);
 	ft_make_env_del(&argv);
 	free(cmd);
+	int i = 0;
+	// ft_putstr("Handling the command");
+	while (argv[i] != NULL){
+		ft_putstr(argv[i]);
+		free(argv[i++]);
+	}
+	free(argv);
 }
 
 void			ft_handle_prompt(char ***envp)
@@ -45,6 +51,8 @@ void			ft_handle_prompt(char ***envp)
 	while (get_next_line(0, &cmd))
 	{
 		ft_handle_cmd(cmd, envp);
+		if(cmd)
+			free(cmd);
 		ft_putstr("$>");
 	}
 }

@@ -19,12 +19,12 @@ void		ft_handle_echo(char **argv)
 	int cnt;
 
 	ind = 1;
-	if (argv[1] == '\0')
+	if (*argv[1] == '\0')
 	{
 		ft_putstr("\n");
 		return ;
 	}
-	while (argv[ind] != '\0')
+	while (*argv[ind] != '\0')
 	{
 		cnt = -1;
 		while (argv[ind][++cnt] != '\0')

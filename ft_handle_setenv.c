@@ -47,9 +47,9 @@ const char *name, const char *value, int overwrite)
 	int		index;
 	char	*temp;
 	char	*hold;
-	int		ind;
+	// int		ind;
 
-	ind = 0;
+	// ind = 0;
 	if (!*name || !*value)
 		return (0);
 	index = ft_get_index(*envp, name);

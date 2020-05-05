@@ -60,16 +60,21 @@ static void		ft_run_child(char ***envp, char **argv)
 		temp = ft_strjoin(ind, argv[0]);
 		if ((execve(temp, &argv[0], *envp)) == -1)
 			ft_error(CMDE, argv[0]);
+		free(temp);
 	}
 	else if (ft_strncmp(argv[0], "/bin/", 4) == 0)
 	{
+		// ft_putstr("Is leak here");
 		if ((execve(argv[0], &argv[0], *envp)) == -1)
 			ft_error(CMDE, argv[0]);
+		free(temp);
 	}
 	else
 		ft_error(CMDE, argv[0]);
-	ft_strdel(&ind);
-	ft_strdel(&temp);
+	// ft_strdel(&ind);
+	free(temp);
+	free(ind);
+	// ft_strdel(&temp);
 }
 
 //if the call to fork() is executed successfully, Unixn will
@@ -89,13 +94,17 @@ void			ft_handle_fork(char **argv, char ***envp)
 		pid = fork();
 		if (pid == 0)
 		{
+			ft_putstr("Are you here");
 			ft_run_child(envp, argv);
+			ft_putstr("Is it here");
 			ft_handle_exit();
 		}
 		else if (pid < 0)
 			ft_putstr("Falied to fork process:\n");
-		else
+		else{
 			// waiting for child to terminate 
 			wait(NULL);
+		}
+	}
 	
 }

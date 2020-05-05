@@ -1,5 +1,5 @@
-
 #include "minishell.h"
+#include <stdio.h>
 
 char		*ft_handle_path(char ***envp, char **argv)
 {
@@ -20,14 +20,31 @@ char		*ft_handle_path(char ***envp, char **argv)
 		if ((dir = opendir(temp)) == NULL)
 		{
 			//ft_error();
+			free(temp);
+			free(dir);
 			return (0);
 		}
 		while ((dr = readdir(dir)) != NULL)
 		{
-			if (ft_strcmp(dr->d_name, argv[0]) == 0)
+			if (ft_strcmp(dr->d_name, argv[0]) == 0){
+				free(dr);
+				if (dir)
+					free(dir);
 				return (temp);
+
+			}
 		}
-		ft_strdel(&temp);
+		// ft_strdel(&temp);
+		free(temp);
+		free(dir);
+			// ft_putendl("Are you here");
 	}
+	int i = 0;
+	while (binfiles[i] != NULL)
+	{
+		ft_putstr(binfiles[i]);
+		free(binfiles[i++]);
+	}
+	free(binfiles);
 	return (NULL);
 }
