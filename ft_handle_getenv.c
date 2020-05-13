@@ -20,13 +20,12 @@ char		*ft_handle_getenv(char **envp, const char *name)
 		while (envp[ind][cntr] && name[cntr] && envp[ind][cntr] == name[cntr])
 		{
 			if (envp[ind][cntr + 1] == '\0')
-			return ft_strdup("tes");
+			return NULL;
 			if (envp[ind][cntr + 1] == '=')
 				return (ft_strdup(ft_strchr(envp[ind] + cntr, '=') + 1));
 			cntr++;
 		}
 		ind++;
 	}
-		ft_putendl("Are you here1");
 	return (NULL);
 }

@@ -41,7 +41,7 @@ static char		**ft_add_env(char **envp, char *value)
 	return (cpy);
 }
 
-int				ft_handle_setenv(char ***envp,\
+int				ft_handle_setenv(char ***envp, \
 const char *name, const char *value, int overwrite)
 {
 	int		index;
@@ -60,9 +60,12 @@ const char *name, const char *value, int overwrite)
 	hold = temp;
 	temp = ft_strjoin(temp, value);
 	(hold != NULL) ? ft_strdel(&hold) : NULL;
-	if (index == -1 && overwrite == 0)
+
+	ft_putstr("[ index ]");
+	ft_putnbr(index);
+	if (index == -1 || overwrite == 0)
 		*envp = ft_add_env(*envp, temp);
-	else
+	else if (index != -1 && overwrite)
 		(*envp)[index] = ft_strdup(temp);
 	ft_strdel(&temp);
 	return (1);

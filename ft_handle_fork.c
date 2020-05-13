@@ -20,7 +20,7 @@ static void		ft_handle_builtin(char **argv, char ***envp)
 		ft_handle_echo(argv);
 	if (ft_strcmp(argv[0], "getenv") == 0)
 		ft_putendl(ft_handle_getenv(*envp, argv[1]));
-	if (ft_strcmp(argv[0], "setenv") == 0)
+	if (ft_strcmp(argv[0], "setenv") == 0  && argv[1] && argv[2])
 		ft_handle_setenv(envp, argv[1], argv[2], 0);
 	if (ft_strcmp(argv[0], "unsetenv") == 0)
 		ft_handle_unsetenv(envp, argv[1]);
@@ -94,9 +94,7 @@ void			ft_handle_fork(char **argv, char ***envp)
 		pid = fork();
 		if (pid == 0)
 		{
-			ft_putstr("Are you here");
 			ft_run_child(envp, argv);
-			ft_putstr("Is it here");
 			ft_handle_exit();
 		}
 		else if (pid < 0)
