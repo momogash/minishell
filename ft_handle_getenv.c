@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 char		*ft_handle_getenv(char **envp, const char *name)
@@ -21,8 +20,9 @@ char		*ft_handle_getenv(char **envp, const char *name)
 		{
 			if (envp[ind][cntr + 1] == '\0')
 			return NULL;
-			if (envp[ind][cntr + 1] == '=')
+			if (envp[ind][cntr + 1] == '='){
 				return (ft_strdup(ft_strchr(envp[ind] + cntr, '=') + 1));
+			}
 			cntr++;
 		}
 		ind++;

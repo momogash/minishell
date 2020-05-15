@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 static int		ft_get_index(char **envp, const char *name)

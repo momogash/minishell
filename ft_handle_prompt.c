@@ -27,19 +27,25 @@ static void		ft_handle_cmd(char *cmd, char ***envp)
 		return ;
 	argv = ft_strsplit(cmd, ' ');
 	if (!argv[0] && !*argv[0])
+	{
+		int i = 0;
+		while (argv[i] != NULL){
+			free(argv[i++]);
+		}
+		free(argv);
 		return ;
+	}
 	if (ft_strcmp(argv[0], "exit") == 0)
 	{
-		ft_handle_exit();
 		ft_make_env_del(&argv);
+		ft_handle_exit();
 	}
 	ft_handle_fork(argv, envp);
 	ft_make_env_del(&argv);
 	free(cmd);
 	int i = 0;
-	// ft_putstr("Handling the command");
-	while (argv[i] != NULL){
-		ft_putstr(argv[i]);
+	while (argv[i] != NULL)
+	{
 		free(argv[i++]);
 	}
 	free(argv);

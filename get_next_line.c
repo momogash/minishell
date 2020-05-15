@@ -1,4 +1,3 @@
-
 #include "get_next_line.h"
 
 static char	*get_res(char *temp, char **line)
@@ -15,7 +14,6 @@ static char	*get_res(char *temp, char **line)
 		hold = temp;
 		temp = ft_strsub(temp, ind + 1, j - (ind + 1));
 		free(hold);
-		// free(line);
 		return (temp);
 	}
 	else
@@ -28,10 +26,8 @@ static int	get_line(const int fd, char buff[BUFF_SIZE + 1], char **line)
 {
 	static char	*temp = NULL;
 	char		*hold;
-	// int			ind;
 	int			j;
 
-	// ind = 0;
 	if (!temp)
 		temp = ft_strnew(1);
 	while ((j = read(fd, buff, BUFF_SIZE)) > 0)
@@ -48,7 +44,6 @@ static int	get_line(const int fd, char buff[BUFF_SIZE + 1], char **line)
 	else
 	{
 		temp = get_res(temp, line);
-		// free(temp);
 		return (OK);
 	}
 }

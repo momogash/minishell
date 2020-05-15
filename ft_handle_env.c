@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 void		ft_handle_env(char **envp)

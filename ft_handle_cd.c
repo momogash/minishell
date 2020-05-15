@@ -1,5 +1,3 @@
-
-
 #include "minishell.h"
 
 static void		ft_home(char ***envp)
@@ -15,7 +13,7 @@ static void		ft_home(char ***envp)
 	temp = ft_strdup(ft_handle_getenv(*envp, "PWD"));
 	ft_handle_setenv(envp, "PWD", ft_handle_getenv(*envp, "HOME"), 1);
 	ft_handle_setenv(envp, "OLDPWD", temp, 1);
-	ft_strdel(&temp);
+	free(temp);
 }
 
 static void		ft_handle_dash(char ***envp)
@@ -31,7 +29,7 @@ static void		ft_handle_dash(char ***envp)
 	temp = ft_strdup(ft_handle_getenv(*envp, "PWD"));
 	ft_handle_setenv(envp, "PWD", ft_handle_getenv(*envp, "OLDPWD"), 1);
 	ft_handle_setenv(envp, "OLDPWD", temp, 1);
-	ft_strdel(&temp);
+	free(temp);
 }
 
 
@@ -50,7 +48,7 @@ void			ft_handle_dotdot(char ***envp, char **argv)
 	temp = ft_strdup(ft_handle_getenv(*envp, "OLDPWD"));
 	ft_handle_setenv(envp, "OLDPWD", ft_handle_getenv(*envp, "PWD"), 1);
 	ft_handle_setenv(envp, "PWD", temp, 1);
-	ft_strdel(&temp);
+	free(temp);
 }
 
 static void		ft_handle_dirname(char ***envp, char **argv)
@@ -66,15 +64,14 @@ static void		ft_handle_dirname(char ***envp, char **argv)
 		ft_error(NDIR, argv[1]);
 		return ;
 	}
-	temp = ft_strdup(ft_handle_getenv(*envp, "PWD"));
-	//ft_putendl("finished??????");
+	temp = ft_handle_getenv(*envp, "PWD");
 	ft_handle_setenv(envp, "PWD", getcwd(cwd, sizeof(cwd)), 1);
-	// ft_putendl("finished??????");
+
 	ft_putstr("[ temp ] ");
 	ft_putendl(temp);
+	
 	ft_handle_setenv(envp, "OLDPWD", temp, 1);
-	// ft_strdel(&temp);
-	ft_putendl("finished??????");
+	free(temp);
 }
 
 void			ft_handle_cd(char ***envp, char **argv)

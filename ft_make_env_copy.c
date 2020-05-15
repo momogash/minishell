@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 char	**ft_make_env_copy(char **envp)

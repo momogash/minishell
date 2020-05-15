@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 void	ft_make_env_del(char ***envp)

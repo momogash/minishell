@@ -1,14 +1,4 @@
-
 #include "minishell.h"
-
-//System call fork() is used to creat processes. it takes no
-//arguments and returns a process ID. the purpose of fork() is 
-//to create a new child process
-//if fork() returns a nagative value, the creation of a child
-//process was unsuccessful.
-//fork() returns a zero to the newly created  child process.
-//fork() returns a positive value, the process ID of the child process,
-//to the parent
 
 static void		ft_handle_builtin(char **argv, char ***envp)
 {
@@ -26,7 +16,6 @@ static void		ft_handle_builtin(char **argv, char ***envp)
 		ft_handle_unsetenv(envp, argv[1]);
 }
 
-// Function to execute builtin commands 
 static int		ft_is_builtin(char **argv)
 {
 	int b;
@@ -64,24 +53,16 @@ static void		ft_run_child(char ***envp, char **argv)
 	}
 	else if (ft_strncmp(argv[0], "/bin/", 4) == 0)
 	{
-		// ft_putstr("Is leak here");
 		if ((execve(argv[0], &argv[0], *envp)) == -1)
 			ft_error(CMDE, argv[0]);
 		free(temp);
 	}
 	else
 		ft_error(CMDE, argv[0]);
-	// ft_strdel(&ind);
 	free(temp);
 	free(ind);
-	// ft_strdel(&temp);
 }
 
-//if the call to fork() is executed successfully, Unixn will
-//make two identical copies of address spaces, one for the 
-//parent and one for the child
-//both processes will start their execution
-//both processes have identical but separate address spaces  
 void			ft_handle_fork(char **argv, char ***envp)
 {
 	pid_t pid;
@@ -90,7 +71,6 @@ void			ft_handle_fork(char **argv, char ***envp)
 		ft_handle_builtin(argv, envp);
 	else
 	{
-		// Forking a child 
 		pid = fork();
 		if (pid == 0)
 		{
@@ -98,9 +78,8 @@ void			ft_handle_fork(char **argv, char ***envp)
 			ft_handle_exit();
 		}
 		else if (pid < 0)
-			ft_putstr("Falied to fork process:\n");
+			ft_putstr("Failed to fork process:\n");
 		else{
-			// waiting for child to terminate 
 			wait(NULL);
 		}
 	}

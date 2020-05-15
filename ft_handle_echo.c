@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 static void	ft_putstr_if(const char *str)

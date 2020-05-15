@@ -1,4 +1,3 @@
-
 #ifndef __GET_NEXT_LINE_H
 # define __GET_NEXT_LINE_H
 # include <fcntl.h>

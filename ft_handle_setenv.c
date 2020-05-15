@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 static int		ft_get_index(char **envp, const char *name)
@@ -47,19 +46,18 @@ const char *name, const char *value, int overwrite)
 	int		index;
 	char	*temp;
 	char	*hold;
-	// int		ind;
-
-	// ind = 0;
 	if (!*name || !*value)
 		return (0);
 	index = ft_get_index(*envp, name);
 	temp = ft_strdup(name);
 	hold = temp;
+
 	temp = ft_strjoin(hold, "=");
-	(hold != NULL) ? ft_strdel(&hold) : NULL;
+	free(hold);
 	hold = temp;
 	temp = ft_strjoin(temp, value);
 	(hold != NULL) ? ft_strdel(&hold) : NULL;
+	free(hold);
 
 	ft_putstr("[ index ]");
 	ft_putnbr(index);
@@ -67,6 +65,6 @@ const char *name, const char *value, int overwrite)
 		*envp = ft_add_env(*envp, temp);
 	else if (index != -1 && overwrite)
 		(*envp)[index] = ft_strdup(temp);
-	ft_strdel(&temp);
+	free(temp);
 	return (1);
 }
