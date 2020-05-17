@@ -1,65 +1,57 @@
 #include "get_next_line.h"
 
-static char	*get_res(char *temp, char **line)
+int				ft_newline(char **str, char **line, int fd, int reader)
 {
-	int		ind;
-	int		j;
-	char	*hold;
+	char			*tmp;
+	unsigned int	i;
+	unsigned int	len;
 
-	j = ft_strlen(temp);
-	if (ft_strchr(temp, '\n'))
+	i = 0;
+	while (str[fd][i] != '\n' && str[fd][i] != '\0')
+		i++;
+	if (str[fd][i] == '\n')
 	{
-		ind = ft_strchr(temp, '\n') - temp;
-		*line = ft_strsub(temp, 0, ind);
-		hold = temp;
-		temp = ft_strsub(temp, ind + 1, j - (ind + 1));
-		free(hold);
-		return (temp);
+		len = i;
+		*line = ft_strsub(str[fd], 0, len);
+		tmp = ft_strdup(str[fd] + len + 1);
+		free(str[fd]);
+		str[fd] = tmp;
+		if (str[fd][0] == '\0')
+			ft_strdel(&str[fd]);
 	}
-	else
-		*line = temp;
-	temp = NULL;
-	return (temp);
+	else if (str[fd][i] == '\0')
+	{
+		if (reader == BUFF_SIZE)
+			return (get_next_line(fd, line));
+		*line = ft_strdup(str[fd]);
+		ft_strdel(&str[fd]);
+	}
+	return (1);
 }
 
-static int	get_line(const int fd, char buff[BUFF_SIZE + 1], char **line)
+int				get_next_line(const int fd, char **line)
 {
-	static char	*temp = NULL;
-	char		*hold;
-	int			j;
+	static char	*multi_fd[1024];
+	char		buff[BUFF_SIZE + 1];
+	char		*tmp;
+	int			rd_bytes;
 
-	if (!temp)
-		temp = ft_strnew(1);
-	while ((j = read(fd, buff, BUFF_SIZE)) > 0)
+	if (fd < 0 || !line)
+		return (-1);
+	while ((rd_bytes = read(fd, buff, BUFF_SIZE)) > 0)
 	{
-		hold = temp;
-		buff[j] = '\0';
-		temp = ft_strjoin(temp, buff);
-		free(hold);
-		if (ft_strchr(buff, '\n'))
+		buff[rd_bytes] = '\0';
+		if (multi_fd[fd] == NULL)
+			multi_fd[fd] = ft_strnew(1);
+		tmp = ft_strjoin(multi_fd[fd], buff);
+		free(multi_fd[fd]);
+		multi_fd[fd] = tmp;
+		if (ft_strchr(multi_fd[fd], '\n'))
 			break ;
 	}
-	if ((j = ft_strlen(temp)) == 0)
+	if (rd_bytes < 0)
+		return (-1);
+	else if (rd_bytes == 0 && (multi_fd[fd] == NULL || multi_fd[fd][0] == '\0'))
 		return (0);
-	else
-	{
-		temp = get_res(temp, line);
-		return (OK);
-	}
-}
-
-int			get_next_line(const int fd, char **line)
-{
-	int		res;
-	char	buff[BUFF_SIZE + 1];
-
-	if (fd < 0 || !line || BUFF_SIZE < 0 || read(fd, buff, 0) < 0)
-		return (EXIT);
-	res = get_line(fd, buff, line);
-	if (res < 0)
-		return (EXIT);
-	else if (res == 0)
-		return (0);
-	else
-		return (OK);
+	return (ft_newline(multi_fd, line, fd, rd_bytes));
 }

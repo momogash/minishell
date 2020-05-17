@@ -16,7 +16,6 @@ int		main(int argc, char **argv, char **envp)
 	
 	int i = 0;
 	while (cenvp[i] != NULL){
-		ft_putendl(cenvp[i]);
 		free(cenvp[i]);
 		i++;
 	}

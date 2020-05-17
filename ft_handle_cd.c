@@ -67,8 +67,6 @@ static void		ft_handle_dirname(char ***envp, char **argv)
 	temp = ft_handle_getenv(*envp, "PWD");
 	ft_handle_setenv(envp, "PWD", getcwd(cwd, sizeof(cwd)), 1);
 
-	ft_putstr("[ temp ] ");
-	ft_putendl(temp);
 	
 	ft_handle_setenv(envp, "OLDPWD", temp, 1);
 	free(temp);

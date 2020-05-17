@@ -42,7 +42,6 @@ char		*ft_handle_path(char ***envp, char **argv)
 	int i = 0;
 	while (binfiles[i] != NULL)
 	{
-		ft_putstr(binfiles[i]);
 		free(binfiles[i++]);
 	}
 	free(binfiles);
