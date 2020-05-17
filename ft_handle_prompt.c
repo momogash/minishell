@@ -18,14 +18,18 @@ static void		ft_remove_qoute(char **cmd)
 static void		ft_handle_cmd(char *cmd, char ***envp)
 {
 	char **argv;
-
+	char *tmp_cmd;
 	if (cmd == NULL || !*cmd)
 		return ;
 	ft_remove_qoute(&cmd);
-	cmd = ft_strtrim(cmd);
-	if (cmd == NULL || !*cmd)
+	tmp_cmd = ft_strtrim(cmd);
+	if (tmp_cmd == NULL || !*tmp_cmd)
+	{
+		if (!*tmp_cmd)
+			free(tmp_cmd);
 		return ;
-	argv = ft_strsplit(cmd, ' ');
+	}
+	argv = ft_strsplit(tmp_cmd, ' ');
 	if (!argv[0] && !*argv[0])
 	{
 		int i = 0;
@@ -42,7 +46,7 @@ static void		ft_handle_cmd(char *cmd, char ***envp)
 	}
 	ft_handle_fork(argv, envp);
 	ft_make_env_del(&argv);
-	free(cmd);
+	free(tmp_cmd);
 	int i = 0;
 	while (argv[i] != NULL)
 	{
@@ -60,8 +64,7 @@ void			ft_handle_prompt(char ***envp)
 	while (get_next_line(0, &cmd))
 	{
 		ft_handle_cmd(cmd, envp);
-		if(cmd)
-			free(cmd);
+		free(cmd);
 		ft_putstr("$>");
 	}
 }

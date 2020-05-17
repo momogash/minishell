@@ -37,7 +37,6 @@ static char		**ft_add_env(char **envp, char *value)
 	cpy[ind++] = ft_strdup(value);
 	cpy[ind] = NULL;
 	ft_make_env_del(&envp);
-	free(cpy[ind]);
 	return (cpy);
 }
 
@@ -47,6 +46,9 @@ const char *name, const char *value, int overwrite)
 	int		index;
 	char	*temp;
 	char	*hold;
+	char	**del_tmp;
+	char 	*str_to_del;
+
 	if (!*name || !*value)
 		return (0);
 	index = ft_get_index(*envp, name);
@@ -57,13 +59,26 @@ const char *name, const char *value, int overwrite)
 	free(hold);
 	hold = temp;
 	temp = ft_strjoin(temp, value);
-	(hold != NULL) ? ft_strdel(&hold) : NULL;
+	// (hold != NULL) ? ft_strdel(&hold) : NULL;
+	if (hold != NULL)
 	free(hold);
 	
 	if (index == -1 || overwrite == 0)
+	{
+		del_tmp = *envp;
 		*envp = ft_add_env(*envp, temp);
+		int i = 0;
+		while(del_tmp[i] != NULL){
+			free(del_tmp[i++]);
+		}
+		free(del_tmp);
+	}
 	else if (index != -1 && overwrite)
+	{
+		str_to_del = (*envp)[index];
 		(*envp)[index] = ft_strdup(temp);
+		free(str_to_del);
+	}
 	free(temp);
 	return (1);
 }
