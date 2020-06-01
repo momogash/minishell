@@ -19,6 +19,7 @@ int		main(int argc, char **argv, char **envp)
 		free(cenvp[i]);
 		i++;
 	}
+	sleep(10);
 	free(cenvp);
 	return (0);
 }
